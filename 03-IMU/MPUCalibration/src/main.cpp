@@ -29,9 +29,8 @@ void ErrorCalibration()
     AccX = (Wire.read() << 8 | Wire.read()) / accelConversionRatio;
     AccY = (Wire.read() << 8 | Wire.read()) / accelConversionRatio;
     AccZ = (Wire.read() << 8 | Wire.read()) / accelConversionRatio;
-
-    angleXaccel += ((atan((AccY) / sqrt(pow((AccX), 2) + pow((AccZ), 2))) * 180 / PI));
-    angleYaccel += ((atan(-1 * (AccX) / sqrt(pow((AccY), 2) + pow((AccZ), 2))) * 180 / PI));
+    angleXaccel += atan(AccY / AccZ)*180/PI;
+    angleYaccel += (atan(-1 * (AccX) / sqrt(pow((AccY), 2) + pow((AccZ), 2))) * 180 / PI);
     counter++;
   }
 
