@@ -56,8 +56,8 @@ void loop()
   AccY = (Wire.read() << 8 | Wire.read()) / 16384.0; // Y-axis value
   AccZ = (Wire.read() << 8 | Wire.read()) / 16384.0; // Z-axis value
   // Calculating Roll and Pitch from the accelerometer data
-  accAngleX = (atan(AccY / sqrt(pow(AccX, 2) + pow(AccZ, 2))) * 180 / PI) +0.0;      // AccErrorX ~(0.58) See the calculate_IMU_error()custom function for more details
-  accAngleY = (atan(-1 * AccX / sqrt(pow(AccY, 2) + pow(AccZ, 2))) * 180 / PI) + 0.0; // AccErrorY ~(-1.58)
+  accAngleX = (atan(AccY / sqrt(pow(AccX, 2) + pow(AccZ, 2))) * 180 / PI) + 0.54;      // AccErrorX ~(0.58) See the calculate_IMU_error()custom function for more details
+  accAngleY = (atan(-1 * AccX / sqrt(pow(AccY, 2) + pow(AccZ, 2))) * 180 / PI) + 3.35; // AccErrorY ~(-1.58)
   // === Read gyroscope data === //
   previousTime = currentTime;                        // Previous time is stored before the actual time read
   currentTime = millis();                            // Current time actual time read
@@ -70,9 +70,9 @@ void loop()
   GyroY = (Wire.read() << 8 | Wire.read()) / 131.0;
   GyroZ = (Wire.read() << 8 | Wire.read()) / 131.0;
   // Correct the outputs with the calculated error values
-  GyroX = GyroX + 1.42; // GyroErrorX ~(-0.56)
-  GyroY = GyroY - 0.25;    // GyroErrorY ~(2)
-  GyroZ = GyroZ - 0.65; // GyroErrorZ ~ (-0.8)
+  GyroX = GyroX + 3.20; // GyroErrorX ~(-0.56)
+  GyroY = GyroY - 0.78;    // GyroErrorY ~(2)
+  GyroZ = GyroZ - 1.05; // GyroErrorZ ~ (-0.8)
   // Currently the raw values are in degrees per seconds, deg/s, so we need to multiply by sendonds (s) to get the angle in degrees
   gyroAngleX = gyroAngleX + GyroX * elapsedTime; // deg/s * s = deg
   gyroAngleY = gyroAngleY + GyroY * elapsedTime;
