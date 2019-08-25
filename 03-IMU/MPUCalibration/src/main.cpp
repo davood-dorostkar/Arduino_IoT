@@ -11,8 +11,7 @@ Website: www.sanatbazar.com
 const int MPU = 0x68;
 float AccX, AccY, AccZ;
 float GyroX, GyroY, GyroZ;
-float angleXaccel, angleYaccel, angleXgyro, angleYgyro, angleZgyro;
-int counter = 0;
+float angleXaccel, angleYaccel, velocityXgyro, velocityYgyro, velocityZgyro;
 
 void ErrorCalibration()
 {
@@ -20,7 +19,7 @@ void ErrorCalibration()
   float gyroConversionRatio = 131.0;
   int attempts = 1000;
 
-  while (counter < attempts)
+  for (int counter = 0; counter < attempts; counter++)
   {
     Wire.beginTransmission(MPU);
     Wire.write(0x3B);
@@ -29,46 +28,38 @@ void ErrorCalibration()
     AccX = (Wire.read() << 8 | Wire.read()) / accelConversionRatio;
     AccY = (Wire.read() << 8 | Wire.read()) / accelConversionRatio;
     AccZ = (Wire.read() << 8 | Wire.read()) / accelConversionRatio;
-    angleXaccel += atan(AccY / AccZ)*180/PI;
+    angleXaccel += atan(AccY / AccZ) * 180 / PI;
     angleYaccel += (atan(-1 * (AccX) / sqrt(pow((AccY), 2) + pow((AccZ), 2))) * 180 / PI);
-    counter++;
   }
 
   angleXaccel /= attempts;
   angleYaccel /= attempts;
-  counter = 0;
 
-  while (counter < attempts)
+  for (int counter = 0; counter < attempts; counter++)
   {
     Wire.beginTransmission(MPU);
     Wire.write(0x43);
     Wire.endTransmission(false);
     Wire.requestFrom(MPU, 6, true);
-    GyroX = Wire.read() << 8 | Wire.read();
-    GyroY = Wire.read() << 8 | Wire.read();
-    GyroZ = Wire.read() << 8 | Wire.read();
-
-    angleXgyro += (GyroX / gyroConversionRatio);
-    angleYgyro += (GyroY / gyroConversionRatio);
-    angleZgyro += (GyroZ / gyroConversionRatio);
-    counter++;
+    velocityXgyro += ((Wire.read() << 8 | Wire.read()) / gyroConversionRatio);
+    velocityYgyro += ((Wire.read() << 8 | Wire.read()) / gyroConversionRatio);
+    velocityZgyro += ((Wire.read() << 8 | Wire.read()) / gyroConversionRatio);
   }
 
-  angleXgyro /= attempts;
-  angleYgyro /= attempts;
-  angleZgyro /= attempts;
-  counter = 0;
+  velocityXgyro /= attempts;
+  velocityYgyro /= attempts;
+  velocityZgyro /= attempts;
 
   Serial.print("angleXaccel: ");
-  Serial.println(angleXaccel);
+  Serial.println(angleXaccel,3);
   Serial.print("angleYaccel: ");
-  Serial.println(angleYaccel);
-  Serial.print("angleXgyro: ");
-  Serial.println(angleXgyro);
-  Serial.print("angleYgyro: ");
-  Serial.println(angleYgyro);
-  Serial.print("angleZgyro: ");
-  Serial.println(angleZgyro);
+  Serial.println(angleYaccel,3);
+  Serial.print("velocityXgyro: ");
+  Serial.println(velocityXgyro,3);
+  Serial.print("velocityYgyro: ");
+  Serial.println(velocityYgyro,3);
+  Serial.print("velocityZgyro: ");
+  Serial.println(velocityZgyro,3);
   Serial.println();
 }
 void setup()
