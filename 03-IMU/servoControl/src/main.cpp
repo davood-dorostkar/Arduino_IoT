@@ -10,7 +10,7 @@ Website: www.sanatbazar.com
 Servo motor;
 #include <Wire.h>
 const int MPU = 0x68;
-float accX, accY, accZ;
+// float accX, accY, accZ;
 float GyroX, GyroY, GyroZ;
 float accAngleX, accAngleY, gyroAngleX, gyroAngleY, gyroAngleZ;
 float roll, pitch, yaw;
@@ -21,7 +21,7 @@ float lastTime, thisTime, duration;
 // float errorAccAngleY = 0.13;
 // float errorGyroVelX = -3.37;
 // float errorGyroVelY = 0.82;
-float errorGyroVleZ = 1.07;
+float errorGyroVelZ = 1.07;
 
 void initIMU()
 {
@@ -32,19 +32,19 @@ void initIMU()
   Wire.endTransmission(true);
 }
 
-void readAccelerometer()
-{
-  float accelConversionRatio = 16384.0;
-  Wire.beginTransmission(MPU);
-  Wire.write(0x3B);
-  Wire.endTransmission(false);
-  Wire.requestFrom(MPU, 6, true);
-  accX = (Wire.read() << 8 | Wire.read()) / accelConversionRatio;
-  accY = (Wire.read() << 8 | Wire.read()) / accelConversionRatio;
-  accZ = (Wire.read() << 8 | Wire.read()) / accelConversionRatio;
-  accAngleX = atan(accY / accZ) * 180 / PI - errorAccAngleX;
-  accAngleY = (atan(-1 * accX / sqrt(pow(accY, 2) + pow(accZ, 2))) * 180 / PI) - errorAccAngleY;
-}
+// void readAccelerometer()
+// {
+//   float accelConversionRatio = 16384.0;
+//   Wire.beginTransmission(MPU);
+//   Wire.write(0x3B);
+//   Wire.endTransmission(false);
+//   Wire.requestFrom(MPU, 6, true);
+//   accX = (Wire.read() << 8 | Wire.read()) / accelConversionRatio;
+//   accY = (Wire.read() << 8 | Wire.read()) / accelConversionRatio;
+//   accZ = (Wire.read() << 8 | Wire.read()) / accelConversionRatio;
+//   accAngleX = atan(accY / accZ) * 180 / PI - errorAccAngleX;
+//   accAngleY = (atan(-1 * accX / sqrt(pow(accY, 2) + pow(accZ, 2))) * 180 / PI) - errorAccAngleY;
+// }
 
 void readGyroscope()
 {
@@ -55,7 +55,7 @@ void readGyroscope()
   Wire.requestFrom(MPU, 6, true);
   // GyroX = (Wire.read() << 8 | Wire.read()) / gyroConversionRatio - errorGyroVelX;
   // GyroY = (Wire.read() << 8 | Wire.read()) / gyroConversionRatio - errorGyroVelY;
-  GyroZ = (Wire.read() << 8 | Wire.read()) / gyroConversionRatio - errorGyroVleZ;
+  GyroZ = (Wire.read() << 8 | Wire.read()) / gyroConversionRatio - errorGyroVelZ;
 }
 
 void setup()
