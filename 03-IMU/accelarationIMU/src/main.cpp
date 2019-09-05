@@ -50,15 +50,6 @@ void velocityCalc()
   velX += AccX * duration;
   velY += AccY * duration;
   velZ += AccZ * duration;
-  //   Serial.print("X Velocity: ");
-  //   Serial.print(velX);
-  //   Serial.print("\t");
-  //   Serial.print("Y Velocity: ");
-  //   Serial.print(velY);
-  //   Serial.print("\t");
-  //   Serial.print("Z Velocity: ");
-  //   Serial.print(velZ);
-  //   Serial.println();
 }
 
 void positionCalc()
@@ -66,15 +57,6 @@ void positionCalc()
   posX += velX * duration;
   posY += velY * duration;
   posZ += velZ * duration;
-  //   Serial.print("X Position: ");
-  //   Serial.print(posX);
-  //   Serial.print("\t");
-  //   Serial.print("Y Position: ");
-  //   Serial.print(posY);
-  //   Serial.print("\t");
-  //   Serial.print("Z Position: ");
-  //   Serial.print(posZ);
-  //   Serial.println();
 }
 
 void initIMU()

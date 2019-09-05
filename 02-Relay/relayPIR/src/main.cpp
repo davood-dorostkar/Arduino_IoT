@@ -15,6 +15,7 @@ void setup()
 {
   pinMode(relayPin, OUTPUT);
   pinMode(pirPin, INPUT);
+  Serial.begin(9600);
 }
 
 void loop()
