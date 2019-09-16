@@ -44,9 +44,13 @@ void loop()
 	while (readTagID())
 	{
 		if (tagID == memberID)
+		{
 			Serial.println("You're Welcome!");
+		}
 		else
+		{
 			Serial.println("You're not registered!");
+		}
 		Serial.print(" ID : ");
 		Serial.println(tagID);
 		Serial.println("");

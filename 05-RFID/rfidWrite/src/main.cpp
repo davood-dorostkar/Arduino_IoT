@@ -1,4 +1,11 @@
 #include <Arduino.h>
+/*
+SanatBazar
+Arduino Tutorial Series
+Author: Davood Dorostkar
+Website: www.sanatbazar.com
+
+*/
 
 #include <SPI.h>
 #include <MFRC522.h>
@@ -9,40 +16,9 @@ MFRC522 RFIDmodule(CSPin, ResetPin);
 MFRC522::MIFARE_Key key;
 
 int blockNumber = 61;
-byte myData[16] = {"1234567812345678"};
+byte myData[16] = {" Sanatbazar.com "};
 byte empty[16] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 byte writtenData[18];
-
-void setup()
-{
-  Serial.begin(9600);
-  SPI.begin();
-  RFIDmodule.PCD_Init();
-  Serial.println("Approximate your RFID tag...");
-
-  for (byte i = 0; i < 6; i++)
-  {
-    key.keyByte[i] = 0xFF;
-  }
-}
-
-void loop()
-{
-  if (!RFIDmodule.PICC_IsNewCardPresent())
-  {
-    return;
-  }
-  if (!RFIDmodule.PICC_ReadCardSerial())
-  {
-    return;
-  }
-  Serial.println("Found a tag");
-  writeBlock(blockNumber, myData);
-  readBlock(blockNumber, writtenData);
-  Serial.print("Your written data is: ");
-  Serial.println(String((char*)writtenData));
-  Serial.println("");
-}
 
 int writeBlock(int blockNumber, byte dataAddress[])
 {
@@ -99,4 +75,35 @@ int readBlock(int blockNumber, byte dataAddress[])
     return 4;
   }
   Serial.println("Data was successfully read");
+}
+
+void setup()
+{
+  Serial.begin(9600);
+  SPI.begin();
+  RFIDmodule.PCD_Init();
+  Serial.println("Approximate your RFID tag...");
+
+  for (byte i = 0; i < 6; i++)
+  {
+    key.keyByte[i] = 0xFF;
+  }
+}
+
+void loop()
+{
+  if (!RFIDmodule.PICC_IsNewCardPresent())
+  {
+    return;
+  }
+  if (!RFIDmodule.PICC_ReadCardSerial())
+  {
+    return;
+  }
+  Serial.println("Found a tag");
+  writeBlock(blockNumber, myData);
+  readBlock(blockNumber, writtenData);
+  Serial.print("Your written data is: ");
+  Serial.println(String((char*)writtenData));
+  Serial.println("");
 }
