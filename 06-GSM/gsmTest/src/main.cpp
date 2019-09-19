@@ -1,40 +1,31 @@
 #include <Arduino.h>
 #include <SoftwareSerial.h>
-
-//Create software serial object to communicate with SIM800L
-SoftwareSerial mySerial(3, 2); //SIM800L Tx & Rx is connected to Arduino #3 & #2
+SoftwareSerial SIM800(2, 3); //SIM800L Tx >> 2 & Rx >> 3
 
 void updateSerial()
 {
   delay(500);
-  while (Serial.available()) 
-  {
-    mySerial.write(Serial.read());//Forward what Serial received to Software Serial Port
-  }
-  while(mySerial.available()) 
-  {
-    Serial.write(mySerial.read());//Forward what Software Serial received to Serial Port
-  }
+  while (Serial.available())
+    SIM800.write(Serial.read());
+  while (SIM800.available())
+    Serial.write(SIM800.read());
 }
 
 void setup()
 {
-  //Begin serial communication with Arduino and Arduino IDE (Serial Monitor)
   Serial.begin(9600);
-  
-  //Begin serial communication with Arduino and SIM800L
-  mySerial.begin(9600);
-
+  SIM800.begin(9600);
   Serial.println("Initializing...");
   delay(1000);
-
-  mySerial.println("AT"); //Once the handshake test is successful, it will back to OK
+  SIM800.println("AT"); //Once the handshake test is successful, it will back to OK
   updateSerial();
-  mySerial.println("AT+CSQ"); //Signal quality test, value range is 0-31 , 31 is the best
+  SIM800.println("AT+CSQ"); //Signal quality test, value range is 0-31 , 31 is the best
   updateSerial();
-  mySerial.println("AT+CCID"); //Read SIM information to confirm whether the SIM is plugged
+  SIM800.println("AT+CCID"); //Read SIM information to confirm whether the SIM is plugged
   updateSerial();
-  mySerial.println("AT+CREG?"); //Check whether it has registered in the network
+  SIM800.println("AT+CREG?"); //Check whether it has registered in the network
+  updateSerial();
+  SIM800.println("AT+COPS?"); //Check whether it has registered in the network
   updateSerial();
 }
 
@@ -42,4 +33,3 @@ void loop()
 {
   updateSerial();
 }
-
