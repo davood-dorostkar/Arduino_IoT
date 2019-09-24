@@ -10,7 +10,7 @@ Website: www.sanatbazar.com
 #include <SoftwareSerial.h>
 SoftwareSerial SIM800(2, 3); //SIM800L Tx >> 2 & Rx >> 3
 String number = "+98xxxxxxxxxx";
-int pirPin = 2;
+int pirPin = 8;
 int lastState = LOW;
 
 void sendSMS()
@@ -56,6 +56,8 @@ void loop()
   else
   {
     if (lastState)
+    {
       lastState = !lastState;
+    }
   }
 }

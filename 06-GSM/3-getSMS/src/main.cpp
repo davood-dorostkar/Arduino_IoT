@@ -14,13 +14,13 @@ void getSMS()
 {
   Serial.println("Switching to SMS read mode");
   delay(1000);
-  SIM800.println("AT+CNMI=2,2,0,0,0"); 
+  SIM800.println("AT+CNMI=2,2,0,0,0");
   delay(1000);
 }
 
 void setup()
 {
-  delay(7000); 
+  delay(7000);
   Serial.begin(9600);
   SIM800.begin(9600);
   Serial.println("Initializing ...");
@@ -29,7 +29,6 @@ void setup()
 }
 void loop()
 {
-
   if (SIM800.available() > 0)
     Serial.write(SIM800.read());
 }
