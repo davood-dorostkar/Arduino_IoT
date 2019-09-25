@@ -12,10 +12,8 @@ Website: www.sanatbazar.com
 #include <dht.h>
 
 // Sensor
-#define sensorPin D0
+#define sensorPin D1
 dht DHT;
-float temp;
-float humidity;
 
 // WiFi
 const char *netName = "SanatBazzar";
@@ -43,12 +41,9 @@ void wifiStatusCheck()
   }
 }
 
-// void thingSpeakCheck(int sentTempData, int sentHumidData)
-// {
-//   if ((sentTempData == 200) && (sentHumidData == 200))
-void thingSpeakCheck(int sentHumidData)
+void thingSpeakCheck(int sentData)
 {
-  if ((sentHumidData == 200))
+  if ((sentData == 200))
   {
     Serial.println("Channel update successful.");
   }
@@ -71,17 +66,20 @@ void setup()
 void loop()
 {
   delay(2000);
-  DHT.read22(sensorPin);
-  float temperature = DHT.temperature;
-  float humidity = DHT.humidity;
+  DHT.read(sensorPin);
   wifiStatusCheck();
+  float temp = DHT.temperature;
+  float hum = DHT.humidity;
+  Serial.print(temp);
+  Serial.print(" --- ");
+  Serial.println(hum);
   if (wifiState)
   {
-    // int sentTempData = ThingSpeak.writeField(channelID, field1, temperature, writeAPIkey);
-    int sentHumidData = ThingSpeak.writeField(channelID, field2, humidity, writeAPIkey);
-    // thingSpeakCheck((int)sentTempData, (int)sentHumidData);
-    thingSpeakCheck((int)sentHumidData);
-    delay(30000);
+    ThingSpeak.setField(field1,temp);
+    ThingSpeak.setField(field2,hum);
+    int sentData = ThingSpeak.writeFields(channelID, writeAPIkey);
+    thingSpeakCheck(sentData);
+    delay(20000);
   }
   else
     Serial.println("Could not connect to network");

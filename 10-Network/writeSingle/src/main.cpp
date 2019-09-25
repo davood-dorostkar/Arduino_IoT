@@ -54,7 +54,7 @@ void setup()
   WiFi.begin(netName, netPassword);
   delay(4000);
   Serial.println("");
-  Serial.println("Connecting... ");
+  Serial.println("Connecting to network... ");
   Serial.println("");
 }
 void loop()
