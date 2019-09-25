@@ -12,7 +12,7 @@ Website: www.sanatbazar.com
 #include <dht.h>
 
 // Sensor
-#define sensorPin D1
+#define sensorPin D4
 dht DHT;
 
 // WiFi
@@ -57,6 +57,7 @@ void setup()
 {
   Serial.begin(115200);
   ThingSpeak.begin(myClient);
+  WiFi.mode(WIFI_STA);
   WiFi.begin(netName, netPassword);
   delay(4000);
   Serial.println("");
@@ -66,7 +67,7 @@ void setup()
 void loop()
 {
   delay(2000);
-  DHT.read(sensorPin);
+  DHT.read11(sensorPin);
   wifiStatusCheck();
   float temp = DHT.temperature;
   float hum = DHT.humidity;
@@ -75,8 +76,8 @@ void loop()
   Serial.println(hum);
   if (wifiState)
   {
-    ThingSpeak.setField(field1,temp);
-    ThingSpeak.setField(field2,hum);
+    ThingSpeak.setField(field1, temp);
+    ThingSpeak.setField(field2, hum);
     int sentData = ThingSpeak.writeFields(channelID, writeAPIkey);
     thingSpeakCheck(sentData);
     delay(20000);

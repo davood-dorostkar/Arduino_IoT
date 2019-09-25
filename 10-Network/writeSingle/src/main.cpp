@@ -51,6 +51,7 @@ void setup()
 {
   Serial.begin(115200);
   ThingSpeak.begin(myClient);
+  WiFi.mode(WIFI_STA);
   WiFi.begin(netName, netPassword);
   delay(4000);
   Serial.println("");
