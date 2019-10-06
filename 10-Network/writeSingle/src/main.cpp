@@ -12,14 +12,14 @@ Website: www.sanatbazar.com
 
 // WiFi
 const char *netName = "SanatBazzar";
-const char *netPassword = "Ikad77646301";
+const char *netPassword = "xxxxxxxxx";
 bool wifiState = 0;
 WiFiClient myClient;
 
 // ThingSpeak
 #define channelID 701131
 const int field1 = 1;
-const char *writeAPIkey = "LLL6T8BKZ4LUWWTJ";
+const char *writeAPIkey = "xxxxxxxxxxxxxxxx";
 
 void wifiStatusCheck()
 {
@@ -64,10 +64,10 @@ void loop()
   wifiStatusCheck();
   if (wifiState)
   {
-    long value = random(20, 40);
+    int value = random(20, 40);
     int sentData = ThingSpeak.writeField(channelID, field1, value, writeAPIkey);
     thingSpeakCheck(sentData);
-    delay(30000);
+    delay(20000);
   }
   else
     Serial.println("Could not connect to network");
